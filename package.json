@@ -7,7 +7,7 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ENG-MNOR/dhagoolka-sound.git"
+    "url": "https://github.com/ENG-MNOR/dhagolka-extension.git"
   },
   "engines": {
     "vscode": "^1.109.0"

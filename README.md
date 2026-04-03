@@ -13,9 +13,9 @@ Share one built `.vsix` with your team (Slack, shared drive, internal Git repo, 
 **Whoever maintains the extension** — build the package once:
 
 ```bash
-cd dhagoolka-sound
+cd dhagolka-extension   # or your local clone folder name
 npm install
-npx @vscode/vsce package --no-dependencies
+npm run vsix
 ```
 
 That produces `dhagoolka-sound-<version>.vsix` in the project folder (version comes from `package.json`, e.g. `dhagoolka-sound-0.0.1.vsix`).
@@ -39,6 +39,8 @@ That produces `dhagoolka-sound-<version>.vsix` in the project folder (version co
    ```
 
 Reload the editor when prompted. Use **Dhagoolka Sound: Test Sound 🔊** from the Command Palette to confirm audio works.
+
+**Source code:** [github.com/ENG-MNOR/dhagolka-extension](https://github.com/ENG-MNOR/dhagolka-extension). Maintainers can attach the built `.vsix` to a [GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository) so the team downloads it without running `npm`.
 
 ---
 
@@ -108,8 +110,8 @@ Want to build this extension yourself? Follow these steps:
 
 ### Step 1: Clone or download the project
 ```bash
-git clone https://github.com/your-username/dhagoolka-sound.git
-cd dhagoolka-sound
+git clone https://github.com/ENG-MNOR/dhagolka-extension.git
+cd dhagolka-extension
 ```
 
 ### Step 2: Install dependencies
@@ -205,7 +207,7 @@ Make sure your file has TypeScript or a linter enabled so VS Code shows red squi
 ## 🏗️ Project Structure
 
 ```
-dhagoolka-sound/
+dhagolka-extension/   (repo root — npm package name is still dhagoolka-sound)
 ├── sounds/
 │   └── fahhhhh.mp3       ← same file on macOS + Windows
 ├── src/
