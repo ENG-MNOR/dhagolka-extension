@@ -1,9 +1,9 @@
 {
   "publisher": "pavithra-dev",
-  "name": "faahh-sound",
+  "name": "dhagoolka-sound",
   "license": "MIT",
-  "displayName": "FaahhSound",
-  "description": "Plays fahh sound on errors",
+  "displayName": "Dhagoolka Sound",
+  "description": "Plays sound on editor errors",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.109.0"
@@ -16,23 +16,23 @@
   "contributes": {
     "commands": [
       {
-        "command": "faahhSound.testSound",
-        "title": "Faahh Sound: Test Sound 🔊"
+        "command": "dhagoolkaSound.testSound",
+        "title": "Dhagoolka Sound: Test Sound 🔊"
       },
       {
-        "command": "faahhSound.toggle",
-        "title": "Faahh Sound: Toggle On/Off"
+        "command": "dhagoolkaSound.toggle",
+        "title": "Dhagoolka Sound: Toggle On/Off"
       }
     ],
     "configuration": {
-      "title": "FaahhSound",
+      "title": "Dhagoolka Sound",
       "properties": {
-        "faahhSound.enabled": {
+        "dhagoolkaSound.enabled": {
           "type": "boolean",
           "default": true,
-          "description": "Enable or disable the faahh sound"
+          "description": "Enable or disable the sound"
         },
-        "faahhSound.minSeverity": {
+        "dhagoolkaSound.minSeverity": {
           "type": "string",
           "default": "error",
           "enum": ["error", "warning"],
@@ -68,8 +68,5 @@
     "typescript-eslint": "^8.56.1",
     "webpack": "^5.105.3",
     "webpack-cli": "^6.0.1"
-  },
-  "dependencies": {
-    "play-sound": "^1.1.6"
   }
 }

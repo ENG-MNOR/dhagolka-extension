@@ -1,4 +1,4 @@
-# FaahhSound 🔊
+# Dhagoolka Sound 🔊
 
 > Plays a **"fahhh"** sound every time you make an error in VS Code. Never silently break your code again!
 
@@ -6,15 +6,53 @@
 
 ## 📦 Installation
 
-### Option 1: Install from Open VSX
+### For your company (recommended): install from a `.vsix` file
+
+Share one built `.vsix` with your team (Slack, shared drive, internal Git repo, etc.). **macOS and Windows** are supported; see [Requirements](#-requirements) for details.
+
+**Whoever maintains the extension** — build the package once:
+
+```bash
+cd dhagoolka-sound
+npm install
+npx @vscode/vsce package --no-dependencies
+```
+
+That produces `dhagoolka-sound-<version>.vsix` in the project folder (version comes from `package.json`, e.g. `dhagoolka-sound-0.0.1.vsix`).
+
+**Each developer** — install it:
+
+**Visual Studio Code**
+
+1. Extensions sidebar → **⋯** (Views and More Actions) → **Install from VSIX…** → choose the `.vsix` file, **or**
+2. Terminal:
+   ```bash
+   code --install-extension /path/to/dhagoolka-sound-0.0.1.vsix
+   ```
+
+**Cursor** (same extension format)
+
+1. Extensions → **⋯** → **Install from VSIX…** → select the file, **or**
+2. Terminal (if the `cursor` shell command is installed):
+   ```bash
+   cursor --install-extension /path/to/dhagoolka-sound-0.0.1.vsix
+   ```
+
+Reload the editor when prompted. Use **Dhagoolka Sound: Test Sound 🔊** from the Command Palette to confirm audio works.
+
+---
+
+### Option 1: Install from Open VSX (public marketplace)
+
 1. Open VS Code
 2. Go to Extensions (`Cmd+Shift+X` on Mac, `Ctrl+Shift+X` on Windows/Linux)
-3. Search for `FaahhSound`
+3. Search for `Dhagoolka Sound`
 4. Click **Install**
 
-### Option 2: Install manually from `.vsix`
+### Option 2: Quick CLI install (if you already have the `.vsix`)
+
 ```bash
-code --install-extension faahh-sound-0.0.1.vsix
+code --install-extension dhagoolka-sound-0.0.1.vsix
 ```
 
 ---
@@ -35,25 +73,25 @@ Open the Command Palette (`Cmd+Shift+P` on Mac, `Ctrl+Shift+P` on Windows/Linux)
 
 | Command | Description |
 |---|---|
-| `Faahh Sound: Test Sound 🔊` | Play the sound immediately to test it |
-| `Faahh Sound: Toggle On/Off` | Mute or unmute the sound |
+| `Dhagoolka Sound: Test Sound 🔊` | Play the sound immediately to test it |
+| `Dhagoolka Sound: Toggle On/Off` | Mute or unmute the sound |
 
 ---
 
 ## ⚙️ Settings
 
-Go to **Settings** (`Cmd+,`) and search for `FaahhSound`:
+Go to **Settings** (`Cmd+,`) and search for `Dhagoolka Sound`:
 
 | Setting | Type | Default | Description |
 |---|---|---|---|
-| `faahhSound.enabled` | boolean | `true` | Enable or disable the sound |
-| `faahhSound.minSeverity` | string | `"error"` | Set to `"error"` or `"warning"` |
+| `dhagoolkaSound.enabled` | boolean | `true` | Enable or disable the sound |
+| `dhagoolkaSound.minSeverity` | string | `"error"` | Set to `"error"` or `"warning"` |
 
 ### Example `settings.json`
 ```json
 {
-  "faahhSound.enabled": true,
-  "faahhSound.minSeverity": "error"
+  "dhagoolkaSound.enabled": true,
+  "dhagoolkaSound.minSeverity": "error"
 }
 ```
 
@@ -66,12 +104,12 @@ Want to build this extension yourself? Follow these steps:
 ### Prerequisites
 - [Node.js](https://nodejs.org) v18 or higher
 - [VS Code](https://code.visualstudio.com)
-- Mac (uses built-in `afplay` for audio)
+- **macOS** or **Windows** (to run the packaged extension and hear sounds)
 
 ### Step 1: Clone or download the project
 ```bash
-git clone https://github.com/your-username/faahh-sound.git
-cd faahh-sound
+git clone https://github.com/your-username/dhagoolka-sound.git
+cd dhagoolka-sound
 ```
 
 ### Step 2: Install dependencies
@@ -80,9 +118,10 @@ npm install
 ```
 
 ### Step 3: Add your sound file
-- Record yourself saying **"fahhh"** or download any mp3
-- Place it at `sounds/fahhhhh.mp3`
-- Test it works:
+Put your MP3 at **`sounds/fahhhhh.mp3`**. The same file is used on **macOS** (`afplay`) and **Windows** (PowerShell + `MediaPlayer`) — nothing else to configure.
+
+**Test on Mac:**
+
 ```bash
 afplay sounds/fahhhhh.mp3
 ```
@@ -94,13 +133,13 @@ npm run compile
 
 ### Step 5: Package it
 ```bash
-npx vsce package --no-dependencies
+npx @vscode/vsce package --no-dependencies
 ```
-This creates `faahh-sound-0.0.1.vsix`
+This creates `dhagoolka-sound-0.0.1.vsix` (the version matches `package.json`). `vsce` runs the `vscode:prepublish` script, which builds production assets — you can skip Step 4 if you rely on that alone.
 
 ### Step 6: Install it
 ```bash
-code --install-extension faahh-sound-0.0.1.vsix
+code --install-extension dhagoolka-sound-0.0.1.vsix
 ```
 
 ### Step 7: Test it
@@ -117,28 +156,32 @@ const x: number = "this is wrong";
 
 ### No sound playing?
 **Check the sound file exists:**
+
 ```bash
 ls sounds/fahhhhh.mp3
 ```
 
-**Test the sound file directly:**
+**macOS — test the file directly:**
+
 ```bash
 afplay sounds/fahhhhh.mp3
 ```
 
+**Windows — test in File Explorer:** double-click `fahhhhh.mp3` and confirm it plays.
+
 **Check the extension is installed:**
 ```bash
-code --list-extensions | grep faahh
+code --list-extensions | grep dhagoolka
 ```
 
 **Check the extension is active:**
 - Open VS Code
 - Go to `Help → Toggle Developer Tools → Console`
-- Look for `FaahhSound is now active!`
+- Look for `DhagoolkaSound is now active!`
 
 **Test manually via Command Palette:**
 ```
-Cmd+Shift+P → "Faahh Sound: Test Sound 🔊"
+Cmd+Shift+P → "Dhagoolka Sound: Test Sound 🔊"
 ```
 
 ### VS Code says "damaged app" on Mac?
@@ -162,9 +205,9 @@ Make sure your file has TypeScript or a linter enabled so VS Code shows red squi
 ## 🏗️ Project Structure
 
 ```
-faahh-sound/
+dhagoolka-sound/
 ├── sounds/
-│   └── fahhhhh.mp3       ← your sound file
+│   └── fahhhhh.mp3       ← same file on macOS + Windows
 ├── src/
 │   └── extension.ts      ← main extension logic
 ├── dist/                 ← compiled output (auto-generated)
@@ -181,7 +224,7 @@ faahh-sound/
 1. When VS Code starts, the extension **snapshots** the current error count
 2. It listens to `vscode.languages.onDidChangeDiagnostics` for any changes
 3. If the new error count is **higher** than before → plays the sound
-4. Uses Mac's built-in `afplay` command to play the `.mp3` file — no external dependencies!
+4. **macOS:** plays via `afplay`. **Windows:** plays via `powershell.exe` and WPF `MediaPlayer` (PresentationCore) — no extra apps required beyond a normal desktop Windows install
 
 ---
 
@@ -190,10 +233,12 @@ faahh-sound/
 | Requirement | Details |
 |---|---|
 | VS Code | `^1.109.0` |
-| OS | macOS (uses `afplay`) |
+| OS | **macOS** or **Windows** (64-bit desktop) |
 | Node.js | `^18.0.0` (for building only) |
 
-> **Windows/Linux users:** The extension currently uses `afplay` which is Mac-only. To support other platforms, replace `afplay` with `powershell` (Windows) or `mpg123` (Linux) in `src/extension.ts`.
+> **Linux:** Playback is not implemented yet; only macOS and Windows run the sound. Contributions welcome.
+
+> **Windows note:** If sound never plays, ensure **Windows PowerShell** is available (default on Windows 10/11).
 
 ---
 
@@ -325,19 +370,19 @@ EOF
 ### Step 8: Package the extension
 ```bash
 cd your-extension-folder
-npx vsce package --no-dependencies
+npx @vscode/vsce package --no-dependencies
 ```
-This creates `faahh-sound-0.0.1.vsix`
+This creates `dhagoolka-sound-0.0.1.vsix`
 
 ### Step 9: Publish!
 ```bash
-npx ovsx publish faahh-sound-0.0.1.vsix -p YOUR_TOKEN_HERE
+npx ovsx publish dhagoolka-sound-0.0.1.vsix -p YOUR_TOKEN_HERE
 ```
 
 ### Step 10: Verify it's live
 Go to:
 ```
-https://open-vsx.org/extension/your-namespace/faahh-sound
+https://open-vsx.org/extension/your-namespace/dhagoolka-sound
 ```
 
 > **Note:** Your extension may show as inactive until your namespace is verified. To request verification, open a GitHub issue at:

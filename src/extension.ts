@@ -6,7 +6,7 @@
 //     const ps = require('play-sound');
 //     return ps({});
 //   } catch(e) {
-//     console.error('FaahhSound: play-sound load failed:', e);
+//     console.error('DhagoolkaSound: play-sound load failed:', e);
 //     return null;
 //   }
 // })();
@@ -14,9 +14,9 @@
 // let previousErrorCount = 0;
 // let diagnosticListener: vscode.Disposable | undefined;
 
-// // Play the faahh sound
+// // Play the sound
 // function playFahh(context: vscode.ExtensionContext) {
-//   const config = vscode.workspace.getConfiguration('faahhSound');
+//   const config = vscode.workspace.getConfiguration('dhagoolkaSound');
 //   const enabled = config.get<boolean>('enabled', true);
 
 //   if (!enabled || !audioPlayer) return;
@@ -25,14 +25,14 @@
 
 //   audioPlayer.play(soundPath, (err: any) => {
 //     if (err) {
-//       console.error('FaahhSound: Could not play sound:', err);
+//       console.error('DhagoolkaSound: Could not play sound:', err);
 //     }
 //   });
 // }
 
 // // Count errors (and optionally warnings) across all open files
 // function countProblems(): number {
-//   const config = vscode.workspace.getConfiguration('faahhSound');
+//   const config = vscode.workspace.getConfiguration('dhagoolkaSound');
 //   const minSeverity = config.get<string>('minSeverity', 'error');
 
 //   let count = 0;
@@ -58,7 +58,7 @@
 // }
 
 // export function activate(context: vscode.ExtensionContext) {
-//   console.log('FaahhSound is now active!');
+//   console.log('DhagoolkaSound is now active!');
 
 //   // Initialize with current error count (don't play on startup)
 //   previousErrorCount = countProblems();
@@ -77,22 +77,22 @@
 
 //   // Register a manual test command
 //   const testCommand = vscode.commands.registerCommand(
-//     'faahhSound.testSound',
+//     'dhagoolkaSound.testSound',
 //     () => {
-//       vscode.window.showInformationMessage('Testing faahh sound... 🔊');
+//       vscode.window.showInformationMessage('Testing dhagoolka sound... 🔊');
 //       playFahh(context);
 //     }
 //   );
 
 //   // Register toggle command
 //   const toggleCommand = vscode.commands.registerCommand(
-//     'faahhSound.toggle',
+//     'dhagoolkaSound.toggle',
 //     () => {
-//       const config = vscode.workspace.getConfiguration('faahhSound');
+//       const config = vscode.workspace.getConfiguration('dhagoolkaSound');
 //       const current = config.get<boolean>('enabled', true);
 //       config.update('enabled', !current, vscode.ConfigurationTarget.Global);
 //       vscode.window.showInformationMessage(
-//         `FaahhSound ${!current ? 'enabled 🔊' : 'disabled 🔇'}`
+//         `DhagoolkaSound ${!current ? 'enabled 🔊' : 'disabled 🔇'}`
 //       );
 //     }
 //   );
@@ -108,30 +108,65 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 import * as cp from 'child_process';
+import { pathToFileURL } from 'url';
 
 let previousErrorCount = 0;
 let diagnosticListener: vscode.Disposable | undefined;
 
-// Play the faahh sound using Mac's built-in afplay
+function playWindows(soundPath: string): void {
+  const uri = pathToFileURL(soundPath).href.replace(/'/g, "''");
+  const script = [
+    'Add-Type -AssemblyName PresentationCore',
+    '$p = New-Object System.Windows.Media.MediaPlayer',
+    `$p.Open([uri]'${uri}')`,
+    '$p.Play()',
+    'Start-Sleep -Seconds 5',
+  ].join('; ');
+  const encoded = Buffer.from(script, 'utf16le').toString('base64');
+  cp.spawn(
+    'powershell.exe',
+    [
+      '-NoProfile',
+      '-NonInteractive',
+      '-WindowStyle',
+      'Hidden',
+      '-EncodedCommand',
+      encoded,
+    ],
+    { detached: true, stdio: 'ignore', windowsHide: true }
+  ).unref();
+}
+
 function playFahh(context: vscode.ExtensionContext) {
-  const config = vscode.workspace.getConfiguration('faahhSound');
+  const config = vscode.workspace.getConfiguration('dhagoolkaSound');
   const enabled = config.get<boolean>('enabled', true);
 
   if (!enabled) return;
 
   const soundPath = path.join(context.extensionPath, 'sounds', 'fahhhhh.mp3');
+  if (!fs.existsSync(soundPath)) {
+    console.error('DhagoolkaSound: Missing sounds/fahhhhh.mp3');
+    return;
+  }
 
   try {
-    cp.spawn('afplay', [soundPath], { detached: true }).unref();
+    if (process.platform === 'darwin') {
+      cp.spawn('afplay', [soundPath], { detached: true, stdio: 'ignore' }).unref();
+    } else if (process.platform === 'win32') {
+      playWindows(soundPath);
+    } else {
+      console.warn('DhagoolkaSound: Playback is only supported on macOS and Windows');
+    }
   } catch (err) {
-    console.error('FaahhSound: Could not play sound:', err);
+    console.error('DhagoolkaSound: Could not play sound:', err);
   }
 }
 
 // Count errors (and optionally warnings) across all open files
 function countProblems(): number {
-  const config = vscode.workspace.getConfiguration('faahhSound');
+  const config = vscode.workspace.getConfiguration('dhagoolkaSound');
   const minSeverity = config.get<string>('minSeverity', 'error');
 
   let count = 0;
@@ -157,7 +192,7 @@ function countProblems(): number {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('FaahhSound is now active!');
+  console.log('DhagoolkaSound is now active!');
 
   // Initialize with current error count (don't play on startup)
   previousErrorCount = countProblems();
@@ -176,22 +211,22 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Register a manual test command
   const testCommand = vscode.commands.registerCommand(
-    'faahhSound.testSound',
+    'dhagoolkaSound.testSound',
     () => {
-      vscode.window.showInformationMessage('Testing faahh sound... 🔊');
+      vscode.window.showInformationMessage('Testing dhagoolka sound... 🔊');
       playFahh(context);
     }
   );
 
   // Register toggle command
   const toggleCommand = vscode.commands.registerCommand(
-    'faahhSound.toggle',
+    'dhagoolkaSound.toggle',
     () => {
-      const config = vscode.workspace.getConfiguration('faahhSound');
+      const config = vscode.workspace.getConfiguration('dhagoolkaSound');
       const current = config.get<boolean>('enabled', true);
       config.update('enabled', !current, vscode.ConfigurationTarget.Global);
       vscode.window.showInformationMessage(
-        `FaahhSound ${!current ? 'enabled 🔊' : 'disabled 🔇'}`
+        `DhagoolkaSound ${!current ? 'enabled 🔊' : 'disabled 🔇'}`
       );
     }
   );
